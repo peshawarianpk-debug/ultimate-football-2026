@@ -1,8 +1,232 @@
+```html
 <!DOCTYPE html>
 <html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ultimate Football 2026</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:#111;
+  color:white;
+  font-family:Arial,sans-serif;
+  text-align:center;
+}
+h1{margin:15px 0 5px}
+#score{font-size:25px;margin:8px}
+#game{
+  width:900px;
+  max-width:95vw;
+  height:520px;
+  max-height:70vh;
+  margin:auto;
+  position:relative;
+  overflow:hidden;
+  background:#159447;
+  border:5px solid white;
+}
+.line{
+  position:absolute;
+  background:white;
+}
+.mid{
+  width:4px;
+  height:100%;
+  left:50%;
+  top:0;
+}
+.circle{
+  position:absolute;
+  width:130px;
+  height:130px;
+  border:3px solid white;
+  border-radius:50%;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+}
+.goal{
+  position:absolute;
+  width:25px;
+  height:130px;
+  top:195px;
+  border:3px solid white;
+}
+.left{left:0}
+.right{right:0}
+
+.player,.bot,.ball{
+  position:absolute;
+  transform:translate(-50%,-50%);
+  user-select:none;
+}
+.player,.bot{
+  width:30px;
+  height:30px;
+  border-radius:50%;
+}
+.player{background:#1677ff}
+.bot{background:#e22}
+.ball{
+  width:16px;
+  height:16px;
+  background:white;
+  border-radius:50%;
+}
+
+#info{
+  margin:10px;
+  font-size:16px;
+}
+button{
+  padding:10px 20px;
+  margin:5px;
+  font-size:16px;
+  cursor:pointer;
+}
+</style>
+</head>
+
 <body>
 
-<h1>Football Test ⚽</h1>
+<h1>⚽ ULTIMATE FOOTBALL 2026</h1>
+<div id="score">BLUE 0 - 0 RED</div>
+
+<div id="game">
+  <div class="line mid"></div>
+  <div class="circle"></div>
+  <div class="goal left"></div>
+  <div class="goal right"></div>
+
+  <div id="player" class="player"></div>
+  <div id="bot" class="bot"></div>
+  <div id="ball" class="ball"></div>
+</div>
+
+<div id="info">
+  🎮 Move: W A S D &nbsp; | &nbsp; Shoot: SPACE
+</div>
+
+<button onclick="restart()">RESTART MATCH</button>
+
+<script>
+const game=document.getElementById("game");
+const player=document.getElementById("player");
+const bot=document.getElementById("bot");
+const ball=document.getElementById("ball");
+const scoreText=document.getElementById("score");
+
+let px=200, py=260;
+let bx=700, by=260;
+let ballX=450, ballY=260;
+let blueScore=0, redScore=0;
+
+let keys={};
+
+document.addEventListener("keydown",e=>{
+  keys[e.key.toLowerCase()]=true;
+
+  if(e.code==="Space"){
+    shoot();
+    e.preventDefault();
+  }
+});
+
+document.addEventListener("keyup",e=>{
+  keys[e.key.toLowerCase()]=false;
+});
+
+function draw(){
+  player.style.left=px+"px";
+  player.style.top=py+"px";
+
+  bot.style.left=bx+"px";
+  bot.style.top=by+"px";
+
+  ball.style.left=ballX+"px";
+  ball.style.top=ballY+"px";
+
+  scoreText.textContent=
+    "BLUE "+blueScore+" - "+redScore+" RED";
+}
+
+function move(){
+  let speed=4;
+
+  if(keys["w"])py-=speed;
+  if(keys["s"])py+=speed;
+  if(keys["a"])px-=speed;
+  if(keys["d"])px+=speed;
+
+  px=Math.max(20,Math.min(880,px));
+  py=Math.max(20,Math.min(500,py));
+
+  // Simple bot movement
+  if(by<ballY)by+=1.5;
+  if(by>ballY)by-=1.5;
+
+  if(bx<ballX)bx+=1.2;
+  if(bx>ballX)bx-=1.2;
+
+  // Ball follows player when close
+  let dx=ballX-px;
+  let dy=ballY-py;
+  let distance=Math.sqrt(dx*dx+dy*dy);
+
+  if(distance<40){
+    ballX=px+25;
+    ballY=py;
+  }
+
+  checkGoal();
+  draw();
+}
+
+function shoot(){
+  let dx=ballX-px;
+  let dy=ballY-py;
+  let distance=Math.sqrt(dx*dx+dy*dy);
+
+  if(distance<60){
+    ballX+=90;
+  }
+}
+
+function checkGoal(){
+  if(ballX>890){
+    blueScore++;
+    resetPositions();
+  }
+
+  if(ballX<10){
+    redScore++;
+    resetPositions();
+  }
+}
+
+function resetPositions(){
+  ballX=450;
+  ballY=260;
+  px=200;
+  py=260;
+  bx=700;
+  by=260;
+}
+
+function restart(){
+  blueScore=0;
+  redScore=0;
+  resetPositions();
+  draw();
+}
+
+setInterval(move,20);
+draw();
+</script>
 
 </body>
 </html>
+```
