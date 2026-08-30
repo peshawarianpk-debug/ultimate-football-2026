@@ -6,10 +6,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Ultimate Football 2026</title>
+#mobileControls{
+  display:none;
+  margin:15px auto;
+  text-align:center;
+}
 
+#mobileControls button{
+  font-size:22px;
+  padding:12px 18px;
+  margin:3px;
+  touch-action:none;
+}
+
+@media (max-width:700px){
+  #mobileControls{
+    display:block;
+  }
+}
 <style>
 *{box-sizing:border-box}
-
+<div id="mobileControls">
+  <button id="up">⬆️</button><br>
+  <button id="left">⬅️</button>
+  <button id="down">⬇️</button>
+  <button id="right">➡️</button>
+  <button id="shoot">⚽ SHOOT</button>
+</div>
 body{
  margin:0;
  background:#07140b;
@@ -166,6 +189,50 @@ button:hover{
 #adminContent{
  display:none;
 }
+ function touchKey(key, state) {
+  keys[key] = state;
+}
+
+document.getElementById("up").addEventListener("touchstart", e => {
+  e.preventDefault();
+  touchKey("w", true);
+});
+document.getElementById("up").addEventListener("touchend", e => {
+  e.preventDefault();
+  touchKey("w", false);
+});
+
+document.getElementById("down").addEventListener("touchstart", e => {
+  e.preventDefault();
+  touchKey("s", true);
+});
+document.getElementById("down").addEventListener("touchend", e => {
+  e.preventDefault();
+  touchKey("s", false);
+});
+
+document.getElementById("left").addEventListener("touchstart", e => {
+  e.preventDefault();
+  touchKey("a", true);
+});
+document.getElementById("left").addEventListener("touchend", e => {
+  e.preventDefault();
+  touchKey("a", false);
+});
+
+document.getElementById("right").addEventListener("touchstart", e => {
+  e.preventDefault();
+  touchKey("d", true);
+});
+document.getElementById("right").addEventListener("touchend", e => {
+  e.preventDefault();
+  touchKey("d", false);
+});
+
+document.getElementById("shoot").addEventListener("touchstart", e => {
+  e.preventDefault();
+  shoot();
+});
 </style>
 </head>
 
