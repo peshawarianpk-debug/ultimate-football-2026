@@ -43,7 +43,9 @@ padding:15px;
 
 .active{display:block}
 
-h1{font-size:clamp(25px,5vw,48px)}
+h1{
+font-size:clamp(25px,5vw,48px);
+}
 
 .menu{
 width:min(430px,92vw);
@@ -67,7 +69,8 @@ font-size:20px;
 margin:8px;
 }
 
-/* FIELD */
+
+/* ================= FIELD ================= */
 
 #field{
 position:relative;
@@ -79,8 +82,6 @@ border:4px solid #fff;
 overflow:visible;
 touch-action:none;
 }
-
-/* FIELD LINES */
 
 .centerLine{
 position:absolute;
@@ -131,7 +132,8 @@ right:0;
 border-right:0;
 }
 
-/* GOALS */
+
+/* ================= GOALS ================= */
 
 .goal{
 position:absolute;
@@ -152,7 +154,8 @@ right:0;
 border-right:0;
 }
 
-/* NETS */
+
+/* NET ONLY OUTSIDE */
 
 .net{
 position:absolute;
@@ -169,12 +172,23 @@ transparent 0 6px,
 z-index:1;
 }
 
-.net.left{right:100%}
-.net.right{left:100%}
+.net.left{
+right:100%;
+}
 
-/* PLAYERS */
+.net.right{
+left:100%;
+}
 
-.player,.bot,.keeper,.botKeeper,.referee,.ball{
+
+/* ================= PLAYERS ================= */
+
+.player,
+.bot,
+.keeper,
+.botKeeper,
+.referee,
+.ball{
 position:absolute;
 transform:translate(-50%,-50%);
 }
@@ -197,7 +211,8 @@ border:3px solid #fff;
 z-index:6;
 }
 
-/* GOALKEEPERS */
+
+/* ================= GOALKEEPERS ================= */
 
 .keeper{
 width:38px;
@@ -217,7 +232,8 @@ border:3px solid #fff;
 z-index:6;
 }
 
-/* REFEREE */
+
+/* ================= REFEREE ================= */
 
 .referee{
 width:34px;
@@ -232,7 +248,8 @@ line-height:26px;
 color:#111;
 }
 
-/* BALL */
+
+/* ================= BALL ================= */
 
 .ball{
 width:18px;
@@ -243,7 +260,8 @@ border:2px solid #111;
 z-index:9;
 }
 
-/* CONTROLS */
+
+/* ================= CONTROLS ================= */
 
 #mobileControls{
 display:flex;
@@ -269,7 +287,8 @@ width:145px!important;
 font-size:17px!important;
 }
 
-/* ADMIN */
+
+/* ================= ADMIN ================= */
 
 .panel{
 width:min(500px,92vw);
@@ -297,18 +316,27 @@ margin:8px;
 border-radius:8px;
 }
 
-#adminContent{display:none}
+#adminContent{
+display:none;
+}
+
+
+/* ================= MOBILE ================= */
 
 @media(max-width:700px){
 
-#field{width:96vw}
+#field{
+width:96vw;
+}
 
-.player,.bot{
+.player,
+.bot{
 width:27px;
 height:27px;
 }
 
-.keeper,.botKeeper{
+.keeper,
+.botKeeper{
 width:30px;
 height:30px;
 }
@@ -331,7 +359,8 @@ line-height:20px;
 
 <body>
 
-<!-- MENU -->
+
+<!-- ================= MENU ================= -->
 
 <section id="menu" class="screen active">
 
@@ -339,129 +368,229 @@ line-height:20px;
 
 <div class="menu">
 
-<button onclick="startMatch()">🎮 QUICK MATCH</button>
+<button onclick="startMatch()">
+🎮 QUICK MATCH
+</button>
 
-<button onclick="openTournament()">🏆 TOURNAMENT</button>
+<button onclick="openTournament()">
+🏆 TOURNAMENT
+</button>
 
-<button onclick="openAdmin()">👑 ADMIN PANEL</button>
+<button onclick="openAdmin()">
+👑 ADMIN PANEL
+</button>
 
 </div>
 
-<p>💻 PC • Laptop • Mac • 📱 Android • iPhone • iPad</p>
+<p>
+💻 PC • Laptop • Mac
+<br>
+📱 Android • iPhone • iPad
+</p>
 
 </section>
 
 
-<!-- GAME -->
+<!-- ================= GAME ================= -->
 
 <section id="gameScreen" class="screen">
 
 <h1>⚽ ULTIMATE FOOTBALL 2026</h1>
 
-<div id="score">BLUE 0 - 0 RED</div>
+<div id="score">
+BLUE 0 - 0 RED
+</div>
 
-<div id="timer">TIME: 90</div>
+<div id="timer">
+TIME: 90
+</div>
+
 
 <div id="field">
 
 <div class="centerLine"></div>
+
 <div class="centerCircle"></div>
+
 <div class="centerSpot"></div>
 
 <div class="penalty left"></div>
+
 <div class="penalty right"></div>
 
+
+<!-- GOALS -->
+
 <div class="goal left"></div>
+
 <div class="goal right"></div>
 
+
+<!-- NETS -->
+
 <div class="net left"></div>
+
 <div class="net right"></div>
 
+
 <!-- BLUE PLAYER -->
+
 <div id="player" class="player"></div>
 
+
 <!-- BLUE GOALKEEPER -->
+
 <div id="keeper" class="keeper"></div>
 
+
 <!-- RED BOT -->
+
 <div id="bot" class="bot"></div>
 
+
 <!-- RED GOALKEEPER -->
+
 <div id="botKeeper" class="botKeeper"></div>
 
+
 <!-- REFEREE -->
-<div id="referee" class="referee">R</div>
+
+<div id="referee" class="referee">
+R
+</div>
+
 
 <!-- BALL -->
+
 <div id="ball" class="ball"></div>
 
 </div>
 
-<p>💻 WASD + SPACE &nbsp; | &nbsp; 📱 Touch Controls</p>
+
+<p>
+💻 WASD + SPACE
+<br>
+📱 Touch Controls
+</p>
+
+
+<!-- TOUCH CONTROLS -->
 
 <div id="mobileControls">
 
 <div class="controlRow">
-<button id="up">⬆️</button>
+
+<button id="up">
+⬆️
+</button>
+
 </div>
+
 
 <div class="controlRow">
-<button id="left">⬅️</button>
-<button id="down">⬇️</button>
-<button id="right">➡️</button>
+
+<button id="left">
+⬅️
+</button>
+
+<button id="down">
+⬇️
+</button>
+
+<button id="right">
+➡️
+</button>
+
 </div>
+
 
 <div class="controlRow">
-<button id="shoot">⚽ SHOOT</button>
-</div>
+
+<button id="shoot">
+⚽ SHOOT
+</button>
 
 </div>
 
-<button onclick="restartMatch()">🔄 RESTART</button>
-<button onclick="backMenu()">🏠 MENU</button>
+</div>
+
+
+<button onclick="restartMatch()">
+🔄 RESTART
+</button>
+
+<button onclick="backMenu()">
+🏠 MENU
+</button>
 
 </section>
 
 
-<!-- TOURNAMENT -->
+<!-- ================= TOURNAMENT ================= -->
 
 <section id="tournamentScreen" class="screen">
 
-<h1>🏆 ULTIMATE CUP 2026</h1>
+<h1>
+🏆 ULTIMATE CUP 2026
+</h1>
 
 <div class="panel">
 
-<div class="stat">Quarter Final</div>
-<div class="stat">Semi Final</div>
-<div class="stat">🏆 FINAL</div>
+<div class="stat">
+Quarter Final
+</div>
 
-<button onclick="startMatch()">▶ PLAY MATCH</button>
-<button onclick="backMenu()">🏠 MENU</button>
+<div class="stat">
+Semi Final
+</div>
+
+<div class="stat">
+🏆 FINAL
+</div>
+
+<button onclick="startMatch()">
+▶ PLAY MATCH
+</button>
+
+<button onclick="backMenu()">
+🏠 MENU
+</button>
 
 </div>
 
 </section>
 
 
-<!-- ADMIN -->
+<!-- ================= ADMIN ================= -->
 
 <section id="adminScreen" class="screen">
 
-<h1>👑 ADMIN PANEL</h1>
+<h1>
+👑 ADMIN PANEL
+</h1>
+
 
 <div id="adminLogin" class="panel">
 
-<h2>🔐 ADMIN LOGIN</h2>
+<h2>
+🔐 ADMIN LOGIN
+</h2>
 
 <input
 id="adminPassword"
 type="password"
-placeholder="Admin password">
+placeholder="Admin password"
+>
 
 <br>
 
-<button onclick="loginAdmin()">LOGIN</button>
-<button onclick="backMenu()">BACK</button>
+<button onclick="loginAdmin()">
+LOGIN
+</button>
+
+<button onclick="backMenu()">
+BACK
+</button>
 
 <p id="loginMessage"></p>
 
@@ -470,7 +599,9 @@ placeholder="Admin password">
 
 <div id="adminContent" class="panel">
 
-<h2>⚙️ GAME CONTROL</h2>
+<h2>
+⚙️ GAME CONTROL
+</h2>
 
 <div class="stat">
 BLUE SCORE:
@@ -487,17 +618,30 @@ TIME:
 <strong id="adminTime">90</strong>
 </div>
 
-<button onclick="adminBlueGoal()">⚽ BLUE GOAL</button>
-<button onclick="adminRedGoal()">🔴 RED GOAL</button>
+
+<button onclick="adminBlueGoal()">
+⚽ BLUE GOAL
+</button>
+
+<button onclick="adminRedGoal()">
+🔴 RED GOAL
+</button>
 
 <br>
 
-<button onclick="activateCheat()">🔥 CHEAT MODE</button>
-<button onclick="restartMatch()">🔄 RESET MATCH</button>
+<button onclick="activateCheat()">
+🔥 CHEAT MODE
+</button>
+
+<button onclick="restartMatch()">
+🔄 RESET MATCH
+</button>
 
 <br>
 
-<button onclick="backMenu()">🏠 MENU</button>
+<button onclick="backMenu()">
+🏠 MENU
+</button>
 
 </div>
 
@@ -506,7 +650,7 @@ TIME:
 
 <script>
 
-/* GAME VARIABLES */
+/* ================= VARIABLES ================= */
 
 let px=25;
 let py=50;
@@ -523,6 +667,9 @@ let botKeeperY=50;
 let ballX=50;
 let ballY=50;
 
+let ballVX=0;
+let ballVY=0;
+
 let refereeX=50;
 let refereeY=40;
 
@@ -532,38 +679,49 @@ let redScore=0;
 let timeLeft=90;
 
 let gameRunning=false;
+
 let cheatMode=false;
 
 let keys={};
 
+let botShootCooldown=0;
 
-/* ELEMENTS */
+
+/* ================= ELEMENTS ================= */
 
 const player=document.getElementById("player");
+
 const bot=document.getElementById("bot");
+
 const keeper=document.getElementById("keeper");
+
 const botKeeper=document.getElementById("botKeeper");
+
 const ball=document.getElementById("ball");
+
 const referee=document.getElementById("referee");
 
 const score=document.getElementById("score");
+
 const timer=document.getElementById("timer");
 
 
-/* SCREEN SYSTEM */
+/* ================= SCREENS ================= */
 
 function showScreen(id){
 
-document.querySelectorAll(".screen").forEach(s=>{
+document.querySelectorAll(".screen").forEach(
+function(s){
 s.classList.remove("active");
-});
+}
+);
 
 document.getElementById(id).classList.add("active");
 
 }
 
 
-/* START */
+/* ================= START ================= */
 
 function startMatch(){
 
@@ -576,7 +734,7 @@ gameRunning=true;
 }
 
 
-/* RESET */
+/* ================= RESET ================= */
 
 function restartMatch(){
 
@@ -595,6 +753,9 @@ botKeeperY=50;
 ballX=50;
 ballY=50;
 
+ballVX=0;
+ballVY=0;
+
 refereeX=50;
 refereeY=40;
 
@@ -605,12 +766,14 @@ timeLeft=90;
 
 cheatMode=false;
 
+botShootCooldown=0;
+
 update();
 
 }
 
 
-/* MENU */
+/* ================= MENU ================= */
 
 function backMenu(){
 
@@ -639,9 +802,11 @@ showScreen("adminScreen");
 }
 
 
-/* KEYBOARD */
+/* ================= KEYBOARD ================= */
 
-document.addEventListener("keydown",function(e){
+document.addEventListener(
+"keydown",
+function(e){
 
 keys[e.key.toLowerCase()]=true;
 
@@ -659,59 +824,80 @@ activateCheat();
 
 }
 
-});
+}
+);
 
 
-document.addEventListener("keyup",function(e){
+document.addEventListener(
+"keyup",
+function(e){
 
 keys[e.key.toLowerCase()]=false;
 
-});
+}
+);
 
 
-/* TOUCH CONTROLS */
+/* ================= TOUCH ================= */
 
 function control(id,key){
 
 const b=document.getElementById(id);
 
-b.addEventListener("pointerdown",function(e){
+b.addEventListener(
+"pointerdown",
+function(e){
 
 e.preventDefault();
 
 keys[key]=true;
 
-});
+}
+);
 
-b.addEventListener("pointerup",function(e){
+b.addEventListener(
+"pointerup",
+function(e){
 
 e.preventDefault();
 
 keys[key]=false;
 
-});
+}
+);
 
-b.addEventListener("pointercancel",function(){
-
-keys[key]=false;
-
-});
-
-b.addEventListener("pointerleave",function(){
+b.addEventListener(
+"pointercancel",
+function(){
 
 keys[key]=false;
 
-});
+}
+);
+
+b.addEventListener(
+"pointerleave",
+function(){
+
+keys[key]=false;
+
+}
+);
 
 }
 
+
 control("up","w");
+
 control("down","s");
+
 control("left","a");
+
 control("right","d");
 
 
-document.getElementById("shoot").addEventListener(
+document.getElementById("shoot")
+.addEventListener(
 "pointerdown",
 function(e){
 
@@ -723,7 +909,7 @@ shoot();
 );
 
 
-/* GAME LOOP */
+/* ================= GAME ================= */
 
 function move(){
 
@@ -732,116 +918,253 @@ if(!gameRunning)return;
 
 /* PLAYER MOVEMENT */
 
-let speed=.75;
+let playerSpeed=.75;
 
-if(keys["w"])py-=speed;
-if(keys["s"])py+=speed;
-if(keys["a"])px-=speed;
-if(keys["d"])px+=speed;
+if(keys["w"])py-=playerSpeed;
+
+if(keys["s"])py+=playerSpeed;
+
+if(keys["a"])px-=playerSpeed;
+
+if(keys["d"])px+=playerSpeed;
 
 px=Math.max(4,Math.min(96,px));
+
 py=Math.max(6,Math.min(94,py));
 
 
-/* RED BOT MOVES LEFT AND RIGHT */
+/* ================= BOT AI ================= */
+
+/*
+The red bot follows the ball.
+It can move LEFT and RIGHT.
+It can also move UP and DOWN.
+*/
 
 let botSpeed=cheatMode?.25:.55;
 
-if(ballX < bx){
+
+if(ballX<bx){
+
 bx-=botSpeed;
+
 }
 
-if(ballX > bx){
+
+if(ballX>bx){
+
 bx+=botSpeed;
+
 }
 
-if(ballY < by){
+
+if(ballY<by){
+
 by-=botSpeed;
+
 }
 
-if(ballY > by){
+
+if(ballY>by){
+
 by+=botSpeed;
+
 }
+
 
 bx=Math.max(20,Math.min(80,bx));
+
 by=Math.max(8,Math.min(92,by));
 
 
-/* BLUE GOALKEEPER */
+/* ================= BOT SHOOTING ================= */
 
-if(keeperY<ballY)keeperY+=.5;
-if(keeperY>ballY)keeperY-=.5;
+botShootCooldown--;
 
-keeperY=Math.max(34,Math.min(66,keeperY));
+let botDX=ballX-bx;
+
+let botDY=ballY-by;
+
+let botDistance=
+Math.sqrt(
+botDX*botDX+
+botDY*botDY
+);
 
 
-/* RED GOALKEEPER */
+/*
+When the red bot reaches the ball,
+it shoots toward the BLUE goal.
+*/
 
-if(botKeeperY<ballY)botKeeperY+=.5;
-if(botKeeperY>ballY)botKeeperY-=.5;
+if(
+botDistance<7 &&
+botShootCooldown<=0
+){
 
-botKeeperY=Math.max(34,Math.min(66,botKeeperY));
+let shootPower=cheatMode?2.4:1.5;
 
 
-/* PLAYER CONTROLS BALL */
+/* Shoot LEFT toward blue goal */
+
+ballVX=-shootPower;
+
+
+/* Aim toward blue goal */
+
+let targetY=50;
+
+ballVY=(targetY-ballY)*0.04;
+
+botShootCooldown=70;
+
+}
+
+
+/* ================= BALL PHYSICS ================= */
+
+ballX+=ballVX;
+
+ballY+=ballVY;
+
+
+/* Slow ball down */
+
+ballVX*=.97;
+
+ballVY*=.97;
+
+
+/* Keep ball inside vertically */
+
+if(ballY<3){
+
+ballY=3;
+
+ballVY=Math.abs(ballVY);
+
+}
+
+
+if(ballY>97){
+
+ballY=97;
+
+ballVY=-Math.abs(ballVY);
+
+}
+
+
+/* ================= PLAYER BALL ================= */
 
 let dx=ballX-px;
+
 let dy=ballY-py;
 
-let distance=Math.sqrt(dx*dx+dy*dy);
+let playerDistance=
+Math.sqrt(dx*dx+dy*dy);
 
-if(distance<6){
+
+if(
+playerDistance<6 &&
+Math.abs(ballVX)<1
+){
 
 ballX=px+3;
+
 ballY=py;
 
 }
 
 
-/* BOT CONTROLS BALL */
+/* ================= BOT BALL ================= */
 
-let bdx=ballX-bx;
-let bdy=ballY-by;
-
-let botDistance=Math.sqrt(bdx*bdx+bdy*bdy);
-
-if(botDistance<6 && !cheatMode){
+if(
+botDistance<6 &&
+Math.abs(ballVX)<1
+){
 
 ballX=bx-3;
+
 ballY=by;
 
 }
 
 
-/* GOALKEEPER DEFENSE */
+/* ================= BLUE KEEPER ================= */
+
+if(keeperY<ballY)
+keeperY+=.5;
+
+if(keeperY>ballY)
+keeperY-=.5;
+
+keeperY=Math.max(
+34,
+Math.min(66,keeperY)
+);
+
+
+/* ================= RED KEEPER ================= */
+
+if(botKeeperY<ballY)
+botKeeperY+=.5;
+
+if(botKeeperY>ballY)
+botKeeperY-=.5;
+
+botKeeperY=Math.max(
+34,
+Math.min(66,botKeeperY)
+);
+
+
+/* ================= KEEPER SAVES ================= */
+
+/* Blue goalkeeper */
 
 if(
 Math.abs(ballX-keeperX)<5 &&
 Math.abs(ballY-keeperY)<12
 ){
 
-ballX=keeperX+5;
+if(ballVX<0){
+
+ballVX=1.8;
 
 }
 
+}
+
+
+/* Red goalkeeper */
 
 if(
 Math.abs(ballX-botKeeperX)<5 &&
 Math.abs(ballY-botKeeperY)<12
 ){
 
-ballX=botKeeperX-5;
+if(ballVX>0){
+
+ballVX=-1.8;
+
+}
 
 }
 
 
-/* REFEREE MOVES */
+/* ================= REFEREE ================= */
 
-refereeX=50+Math.sin(Date.now()/900)*18;
-refereeY=50+Math.cos(Date.now()/1100)*12;
+refereeX=
+50+
+Math.sin(Date.now()/900)*18;
+
+refereeY=
+50+
+Math.cos(Date.now()/1100)*12;
 
 
-/* GOALS */
+/* ================= GOALS ================= */
 
 if(ballX>=98){
 
@@ -851,6 +1174,7 @@ resetPositions();
 
 }
 
+
 if(ballX<=2){
 
 redScore++;
@@ -859,32 +1183,42 @@ resetPositions();
 
 }
 
+
 update();
 
 }
 
 
-/* SHOOT */
+/* ================= PLAYER SHOOT ================= */
 
 function shoot(){
 
 if(!gameRunning)return;
 
 let dx=ballX-px;
+
 let dy=ballY-py;
 
-let distance=Math.sqrt(dx*dx+dy*dy);
+let distance=
+Math.sqrt(dx*dx+dy*dy);
+
 
 if(distance<11){
 
-ballX+=cheatMode?20:11;
+ballVX=
+cheatMode
+?2.5
+:1.7;
+
+ballVY=
+(ballY-py)*.05;
 
 }
 
 }
 
 
-/* RESET POSITIONS */
+/* ================= RESET POSITIONS ================= */
 
 function resetPositions(){
 
@@ -903,49 +1237,82 @@ botKeeperY=50;
 ballX=50;
 ballY=50;
 
+ballVX=0;
+ballVY=0;
+
+botShootCooldown=40;
+
 }
 
 
-/* UPDATE SCREEN */
+/* ================= UPDATE ================= */
 
 function update(){
 
 player.style.left=px+"%";
+
 player.style.top=py+"%";
 
+
 bot.style.left=bx+"%";
+
 bot.style.top=by+"%";
 
+
 keeper.style.left=keeperX+"%";
+
 keeper.style.top=keeperY+"%";
 
+
 botKeeper.style.left=botKeeperX+"%";
+
 botKeeper.style.top=botKeeperY+"%";
 
+
 ball.style.left=ballX+"%";
+
 ball.style.top=ballY+"%";
 
+
 referee.style.left=refereeX+"%";
+
 referee.style.top=refereeY+"%";
 
+
 score.textContent=
-"BLUE "+blueScore+" - "+redScore+" RED";
+"BLUE "+
+blueScore+
+" - "+
+redScore+
+" RED";
+
 
 timer.textContent=
-"TIME: "+timeLeft;
+"TIME: "+
+timeLeft;
 
-document.getElementById("adminBlue").textContent=blueScore;
-document.getElementById("adminRed").textContent=redScore;
-document.getElementById("adminTime").textContent=timeLeft;
+
+document.getElementById("adminBlue")
+.textContent=blueScore;
+
+document.getElementById("adminRed")
+.textContent=redScore;
+
+document.getElementById("adminTime")
+.textContent=timeLeft;
 
 }
 
 
-/* TIMER */
+/* ================= TIMER ================= */
 
-setInterval(function(){
+setInterval(
+function(){
 
-if(gameRunning && timeLeft>0){
+if(
+gameRunning &&
+timeLeft>0
+){
 
 timeLeft--;
 
@@ -953,7 +1320,11 @@ update();
 
 }
 
-if(gameRunning && timeLeft<=0){
+
+if(
+gameRunning &&
+timeLeft<=0
+){
 
 gameRunning=false;
 
@@ -967,30 +1338,41 @@ redScore+
 
 }
 
-},1000);
+},
+1000
+);
 
 
-/* GAME LOOP */
+/* ================= GAME LOOP ================= */
 
 setInterval(move,20);
 
 
-/* ADMIN LOGIN */
+/* ================= ADMIN LOGIN ================= */
 
 function loginAdmin(){
 
 const password=
-document.getElementById("adminPassword").value;
+document.getElementById(
+"adminPassword"
+).value;
+
 
 if(password==="umar bau"){
 
-document.getElementById("adminLogin").style.display="none";
+document.getElementById(
+"adminLogin"
+).style.display="none";
 
-document.getElementById("adminContent").style.display="block";
+document.getElementById(
+"adminContent"
+).style.display="block";
 
 }else{
 
-document.getElementById("loginMessage").textContent=
+document.getElementById(
+"loginMessage"
+).textContent=
 "❌ WRONG PASSWORD";
 
 }
@@ -998,7 +1380,7 @@ document.getElementById("loginMessage").textContent=
 }
 
 
-/* ADMIN GOALS */
+/* ================= ADMIN GOALS ================= */
 
 function adminBlueGoal(){
 
@@ -1018,18 +1400,20 @@ update();
 }
 
 
-/* CHEAT */
+/* ================= CHEAT ================= */
 
 function activateCheat(){
 
 cheatMode=true;
 
-alert("🔥 CHEAT MODE ACTIVATED!");
+alert(
+"🔥 CHEAT MODE ACTIVATED!"
+);
 
 }
 
 
-/* INITIAL */
+/* ================= INITIAL ================= */
 
 update();
 
