@@ -8,6 +8,7 @@
 
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+
 html,body{
 margin:0;
 padding:0;
@@ -16,7 +17,9 @@ color:#fff;
 font-family:Arial,sans-serif;
 text-align:center;
 }
+
 body{overflow-x:hidden}
+
 button{
 background:#111;
 color:#fff;
@@ -29,15 +32,24 @@ font-weight:bold;
 cursor:pointer;
 touch-action:manipulation;
 }
+
 button:active{transform:scale(.94)}
-.screen{display:none;min-height:100vh;padding:15px}
+
+.screen{
+display:none;
+min-height:100vh;
+padding:15px;
+}
+
 .active{display:block}
+
 h1{font-size:clamp(25px,5vw,48px)}
 
 .menu{
 width:min(430px,92vw);
 margin:40px auto;
 }
+
 .menu button{
 display:block;
 width:100%;
@@ -45,10 +57,18 @@ margin:15px 0;
 font-size:19px;
 }
 
-#score{font-size:28px;font-weight:bold}
-#timer{font-size:20px;margin:8px}
+#score{
+font-size:28px;
+font-weight:bold;
+}
 
-/* FOOTBALL PITCH */
+#timer{
+font-size:20px;
+margin:8px;
+}
+
+/* FIELD */
+
 #field{
 position:relative;
 width:min(900px,94vw);
@@ -61,6 +81,7 @@ touch-action:none;
 }
 
 /* FIELD LINES */
+
 .centerLine{
 position:absolute;
 left:50%;
@@ -92,7 +113,6 @@ background:#fff;
 border-radius:50%;
 }
 
-/* PENALTY BOXES */
 .penalty{
 position:absolute;
 top:25%;
@@ -111,14 +131,14 @@ right:0;
 border-right:0;
 }
 
-/* GOAL FRAME - COMPLETELY INSIDE PITCH */
+/* GOALS */
+
 .goal{
 position:absolute;
-top:37%;
-width:8%;
-height:26%;
+top:36%;
+width:7%;
+height:28%;
 border:4px solid #fff;
-background:transparent;
 z-index:2;
 }
 
@@ -132,12 +152,13 @@ right:0;
 border-right:0;
 }
 
-/* ONLY NET OUTSIDE */
+/* NETS */
+
 .net{
 position:absolute;
-top:37%;
+top:36%;
 width:4%;
-height:26%;
+height:28%;
 border-top:3px solid #aaa;
 border-bottom:3px solid #aaa;
 background:repeating-linear-gradient(
@@ -148,16 +169,12 @@ transparent 0 6px,
 z-index:1;
 }
 
-.net.left{
-right:100%;
-}
-
-.net.right{
-left:100%;
-}
+.net.left{right:100%}
+.net.right{left:100%}
 
 /* PLAYERS */
-.player,.bot,.referee,.ball{
+
+.player,.bot,.keeper,.botKeeper,.referee,.ball{
 position:absolute;
 transform:translate(-50%,-50%);
 }
@@ -168,7 +185,7 @@ height:34px;
 border-radius:50%;
 background:#1685ff;
 border:3px solid #fff;
-z-index:5;
+z-index:6;
 }
 
 .bot{
@@ -177,19 +194,31 @@ height:34px;
 border-radius:50%;
 background:#e02020;
 border:3px solid #fff;
-z-index:5;
+z-index:6;
 }
 
-.ball{
-width:18px;
-height:18px;
-border-radius:50%;
-background:#fff;
-border:2px solid #111;
-z-index:8;
+/* GOALKEEPERS */
+
+.keeper{
+width:38px;
+height:38px;
+border-radius:8px;
+background:#00aaff;
+border:3px solid #fff;
+z-index:6;
+}
+
+.botKeeper{
+width:38px;
+height:38px;
+border-radius:8px;
+background:#ff5500;
+border:3px solid #fff;
+z-index:6;
 }
 
 /* REFEREE */
+
 .referee{
 width:34px;
 height:34px;
@@ -197,13 +226,25 @@ border-radius:50%;
 background:#ffd900;
 border:4px solid #111;
 z-index:7;
-font-size:18px;
 font-weight:bold;
-line-height:27px;
+font-size:17px;
+line-height:26px;
 color:#111;
 }
 
+/* BALL */
+
+.ball{
+width:18px;
+height:18px;
+border-radius:50%;
+background:#fff;
+border:2px solid #111;
+z-index:9;
+}
+
 /* CONTROLS */
+
 #mobileControls{
 display:flex;
 flex-direction:column;
@@ -229,6 +270,7 @@ font-size:17px!important;
 }
 
 /* ADMIN */
+
 .panel{
 width:min(500px,92vw);
 margin:25px auto;
@@ -258,43 +300,66 @@ border-radius:8px;
 #adminContent{display:none}
 
 @media(max-width:700px){
+
 #field{width:96vw}
-.player,.bot{width:27px;height:27px}
-.ball{width:15px;height:15px}
+
+.player,.bot{
+width:27px;
+height:27px;
+}
+
+.keeper,.botKeeper{
+width:30px;
+height:30px;
+}
+
+.ball{
+width:15px;
+height:15px;
+}
+
 .referee{
 width:27px;
 height:27px;
-font-size:14px;
-line-height:21px;
+font-size:13px;
+line-height:20px;
 }
+
 }
 </style>
 </head>
 
 <body>
 
-<!-- MAIN MENU -->
+<!-- MENU -->
+
 <section id="menu" class="screen active">
 
 <h1>⚽ ULTIMATE FOOTBALL 2026</h1>
 
 <div class="menu">
+
 <button onclick="startMatch()">🎮 QUICK MATCH</button>
+
 <button onclick="openTournament()">🏆 TOURNAMENT</button>
+
 <button onclick="openAdmin()">👑 ADMIN PANEL</button>
+
 </div>
 
-<p>💻 PC • Laptop • Mac • 📱 Phone • iPad</p>
+<p>💻 PC • Laptop • Mac • 📱 Android • iPhone • iPad</p>
 
 </section>
 
 
 <!-- GAME -->
+
 <section id="gameScreen" class="screen">
 
 <h1>⚽ ULTIMATE FOOTBALL 2026</h1>
 
 <div id="score">BLUE 0 - 0 RED</div>
+
 <div id="timer">TIME: 90</div>
 
 <div id="field">
@@ -306,17 +371,23 @@ line-height:21px;
 <div class="penalty left"></div>
 <div class="penalty right"></div>
 
-<!-- GOALS INSIDE -->
 <div class="goal left"></div>
 <div class="goal right"></div>
 
-<!-- NET ONLY OUTSIDE -->
 <div class="net left"></div>
 <div class="net right"></div>
 
-<!-- PLAYERS -->
+<!-- BLUE PLAYER -->
 <div id="player" class="player"></div>
+
+<!-- BLUE GOALKEEPER -->
+<div id="keeper" class="keeper"></div>
+
+<!-- RED BOT -->
 <div id="bot" class="bot"></div>
+
+<!-- RED GOALKEEPER -->
+<div id="botKeeper" class="botKeeper"></div>
 
 <!-- REFEREE -->
 <div id="referee" class="referee">R</div>
@@ -353,6 +424,7 @@ line-height:21px;
 
 
 <!-- TOURNAMENT -->
+
 <section id="tournamentScreen" class="screen">
 
 <h1>🏆 ULTIMATE CUP 2026</h1>
@@ -363,7 +435,7 @@ line-height:21px;
 <div class="stat">Semi Final</div>
 <div class="stat">🏆 FINAL</div>
 
-<button onclick="startMatch()">▶ PLAY</button>
+<button onclick="startMatch()">▶ PLAY MATCH</button>
 <button onclick="backMenu()">🏠 MENU</button>
 
 </div>
@@ -372,6 +444,7 @@ line-height:21px;
 
 
 <!-- ADMIN -->
+
 <section id="adminScreen" class="screen">
 
 <h1>👑 ADMIN PANEL</h1>
@@ -393,6 +466,7 @@ placeholder="Admin password">
 <p id="loginMessage"></p>
 
 </div>
+
 
 <div id="adminContent" class="panel">
 
@@ -419,7 +493,7 @@ TIME:
 <br>
 
 <button onclick="activateCheat()">🔥 CHEAT MODE</button>
-<button onclick="restartMatch()">🔄 RESET</button>
+<button onclick="restartMatch()">🔄 RESET MATCH</button>
 
 <br>
 
@@ -432,13 +506,19 @@ TIME:
 
 <script>
 
-/* GAME DATA */
+/* GAME VARIABLES */
 
 let px=25;
 let py=50;
 
 let bx=75;
 let by=50;
+
+let keeperX=7;
+let keeperY=50;
+
+let botKeeperX=93;
+let botKeeperY=50;
 
 let ballX=50;
 let ballY=50;
@@ -461,6 +541,8 @@ let keys={};
 
 const player=document.getElementById("player");
 const bot=document.getElementById("bot");
+const keeper=document.getElementById("keeper");
+const botKeeper=document.getElementById("botKeeper");
 const ball=document.getElementById("ball");
 const referee=document.getElementById("referee");
 
@@ -468,7 +550,7 @@ const score=document.getElementById("score");
 const timer=document.getElementById("timer");
 
 
-/* SCREENS */
+/* SCREEN SYSTEM */
 
 function showScreen(id){
 
@@ -481,7 +563,7 @@ document.getElementById(id).classList.add("active");
 }
 
 
-/* START GAME */
+/* START */
 
 function startMatch(){
 
@@ -503,6 +585,12 @@ py=50;
 
 bx=75;
 by=50;
+
+keeperX=7;
+keeperY=50;
+
+botKeeperX=93;
+botKeeperY=50;
 
 ballX=50;
 ballY=50;
@@ -581,7 +669,7 @@ keys[e.key.toLowerCase()]=false;
 });
 
 
-/* TOUCH / MOUSE */
+/* TOUCH CONTROLS */
 
 function control(id,key){
 
@@ -635,14 +723,14 @@ shoot();
 );
 
 
-/* PLAYER + BOT */
+/* GAME LOOP */
 
 function move(){
 
 if(!gameRunning)return;
 
 
-/* PLAYER */
+/* PLAYER MOVEMENT */
 
 let speed=.75;
 
@@ -652,28 +740,57 @@ if(keys["a"])px-=speed;
 if(keys["d"])px+=speed;
 
 px=Math.max(4,Math.min(96,px));
-py=Math.max(5,Math.min(95,py));
+py=Math.max(6,Math.min(94,py));
 
 
-/* BOT */
+/* RED BOT MOVES LEFT AND RIGHT */
 
-let bs=cheatMode?.25:.4;
+let botSpeed=cheatMode?.25:.55;
 
-if(by<ballY)by+=bs;
-if(by>ballY)by-=bs;
+if(ballX < bx){
+bx-=botSpeed;
+}
 
-if(bx<ballX)bx+=bs;
-if(bx>ballX)bx-=bs;
+if(ballX > bx){
+bx+=botSpeed;
+}
+
+if(ballY < by){
+by-=botSpeed;
+}
+
+if(ballY > by){
+by+=botSpeed;
+}
+
+bx=Math.max(20,Math.min(80,bx));
+by=Math.max(8,Math.min(92,by));
 
 
-/* PLAYER BALL */
+/* BLUE GOALKEEPER */
+
+if(keeperY<ballY)keeperY+=.5;
+if(keeperY>ballY)keeperY-=.5;
+
+keeperY=Math.max(34,Math.min(66,keeperY));
+
+
+/* RED GOALKEEPER */
+
+if(botKeeperY<ballY)botKeeperY+=.5;
+if(botKeeperY>ballY)botKeeperY-=.5;
+
+botKeeperY=Math.max(34,Math.min(66,botKeeperY));
+
+
+/* PLAYER CONTROLS BALL */
 
 let dx=ballX-px;
 let dy=ballY-py;
 
-let dist=Math.sqrt(dx*dx+dy*dy);
+let distance=Math.sqrt(dx*dx+dy*dy);
 
-if(dist<6){
+if(distance<6){
 
 ballX=px+3;
 ballY=py;
@@ -681,14 +798,14 @@ ballY=py;
 }
 
 
-/* BOT BALL */
+/* BOT CONTROLS BALL */
 
 let bdx=ballX-bx;
 let bdy=ballY-by;
 
-let bdist=Math.sqrt(bdx*bdx+bdy*bdy);
+let botDistance=Math.sqrt(bdx*bdx+bdy*bdy);
 
-if(bdist<5 && !cheatMode){
+if(botDistance<6 && !cheatMode){
 
 ballX=bx-3;
 ballY=by;
@@ -696,7 +813,29 @@ ballY=by;
 }
 
 
-/* REFEREE MOVEMENT */
+/* GOALKEEPER DEFENSE */
+
+if(
+Math.abs(ballX-keeperX)<5 &&
+Math.abs(ballY-keeperY)<12
+){
+
+ballX=keeperX+5;
+
+}
+
+
+if(
+Math.abs(ballX-botKeeperX)<5 &&
+Math.abs(ballY-botKeeperY)<12
+){
+
+ballX=botKeeperX-5;
+
+}
+
+
+/* REFEREE MOVES */
 
 refereeX=50+Math.sin(Date.now()/900)*18;
 refereeY=50+Math.cos(Date.now()/1100)*12;
@@ -734,9 +873,9 @@ if(!gameRunning)return;
 let dx=ballX-px;
 let dy=ballY-py;
 
-let dist=Math.sqrt(dx*dx+dy*dy);
+let distance=Math.sqrt(dx*dx+dy*dy);
 
-if(dist<11){
+if(distance<11){
 
 ballX+=cheatMode?20:11;
 
@@ -749,19 +888,25 @@ ballX+=cheatMode?20:11;
 
 function resetPositions(){
 
-ballX=50;
-ballY=50;
-
 px=25;
 py=50;
 
 bx=75;
 by=50;
 
+keeperX=7;
+keeperY=50;
+
+botKeeperX=93;
+botKeeperY=50;
+
+ballX=50;
+ballY=50;
+
 }
 
 
-/* UPDATE */
+/* UPDATE SCREEN */
 
 function update(){
 
@@ -770,6 +915,12 @@ player.style.top=py+"%";
 
 bot.style.left=bx+"%";
 bot.style.top=by+"%";
+
+keeper.style.left=keeperX+"%";
+keeper.style.top=keeperY+"%";
+
+botKeeper.style.left=botKeeperX+"%";
+botKeeper.style.top=botKeeperY+"%";
 
 ball.style.left=ballX+"%";
 ball.style.top=ballY+"%";
@@ -847,7 +998,7 @@ document.getElementById("loginMessage").textContent=
 }
 
 
-/* ADMIN BUTTONS */
+/* ADMIN GOALS */
 
 function adminBlueGoal(){
 
