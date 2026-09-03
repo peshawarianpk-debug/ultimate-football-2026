@@ -7,112 +7,290 @@
 
 <style>
 *{box-sizing:border-box}
+
 html,body{
- margin:0;width:100%;height:100%;overflow:hidden;
- font-family:Arial,sans-serif;background:#08752d;
+ margin:0;
+ width:100%;
+ height:100%;
+ overflow:hidden;
+ font-family:Arial,sans-serif;
+ background:#08752d;
  touch-action:none;
 }
-#game{width:100vw;height:100vh;position:relative;overflow:hidden}
+
+#game{
+ width:100vw;
+ height:100vh;
+ position:relative;
+ overflow:hidden;
+}
+
+#passwordScreen{
+ position:fixed;
+ inset:0;
+ z-index:9999;
+ background:#08752d;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ gap:15px;
+ color:white;
+ text-align:center;
+}
+
+#passwordScreen h1{
+ font-size:32px;
+ margin:0 0 10px;
+}
+
+#passwordInput{
+ width:260px;
+ padding:14px;
+ font-size:18px;
+ border:2px solid white;
+ border-radius:10px;
+ text-align:center;
+ outline:none;
+}
+
+#passwordScreen button{
+ padding:13px 35px;
+ font-size:18px;
+ font-weight:bold;
+ border:0;
+ border-radius:10px;
+ cursor:pointer;
+}
+
+#wrongPassword{
+ color:#ffdddd;
+ font-weight:bold;
+ min-height:20px;
+}
 
 #pitch{
- position:absolute;left:3%;top:5%;width:94%;height:90%;
+ position:absolute;
+ left:3%;
+ top:5%;
+ width:94%;
+ height:90%;
  border:4px solid white;
  background:repeating-linear-gradient(
-  90deg,#168f3b 0,#168f3b 90px,#128238 90px,#128238 180px
+  90deg,
+  #168f3b 0,
+  #168f3b 90px,
+  #128238 90px,
+  #128238 180px
  );
  box-shadow:0 0 25px #0008;
 }
 
-.mid{position:absolute;left:50%;top:0;width:4px;height:100%;background:white}
+.mid{
+ position:absolute;
+ left:50%;
+ top:0;
+ width:4px;
+ height:100%;
+ background:white;
+}
+
 .circle{
- position:absolute;left:50%;top:50%;width:155px;height:155px;
- border:4px solid white;border-radius:50%;
+ position:absolute;
+ left:50%;
+ top:50%;
+ width:155px;
+ height:155px;
+ border:4px solid white;
+ border-radius:50%;
  transform:translate(-50%,-50%);
 }
+
 .dot{
- position:absolute;left:50%;top:50%;width:10px;height:10px;
- background:white;border-radius:50%;transform:translate(-50%,-50%);
+ position:absolute;
+ left:50%;
+ top:50%;
+ width:10px;
+ height:10px;
+ background:white;
+ border-radius:50%;
+ transform:translate(-50%,-50%);
 }
+
 .box{
- position:absolute;top:27%;width:14%;height:46%;
+ position:absolute;
+ top:27%;
+ width:14%;
+ height:46%;
  border:4px solid white;
 }
-.leftbox{left:0;border-left:0}
-.rightbox{right:0;border-right:0}
+
+.leftbox{
+ left:0;
+ border-left:0;
+}
+
+.rightbox{
+ right:0;
+ border-right:0;
+}
 
 .goal{
- position:absolute;top:35%;width:7%;height:30%;
- border:4px solid white;background:#ffffff20;
+ position:absolute;
+ top:35%;
+ width:7%;
+ height:30%;
+ border:4px solid white;
+ background:#ffffff20;
 }
-.leftgoal{left:-7%}
-.rightgoal{right:-7%}
+
+.leftgoal{
+ left:-7%;
+}
+
+.rightgoal{
+ right:-7%;
+}
 
 .player,.bot{
- position:absolute;width:48px;height:48px;border-radius:50%;
+ position:absolute;
+ width:48px;
+ height:48px;
+ border-radius:50%;
  transform:translate(-50%,-50%);
- display:flex;align-items:center;justify-content:center;
- border:3px solid white;z-index:10;font-size:25px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ border:3px solid white;
+ z-index:10;
+ font-size:25px;
 }
-.player{background:#087cff}
-.bot{background:#e52525}
+
+.player{
+ background:#087cff;
+}
+
+.bot{
+ background:#e52525;
+}
 
 .ball{
- position:absolute;width:23px;height:23px;border-radius:50%;
- background:white;border:3px solid #111;
- transform:translate(-50%,-50%);z-index:20;
+ position:absolute;
+ width:23px;
+ height:23px;
+ border-radius:50%;
+ background:white;
+ border:3px solid #111;
+ transform:translate(-50%,-50%);
+ z-index:20;
 }
 
 #score{
- position:absolute;top:8px;left:50%;transform:translateX(-50%);
- color:white;font-size:25px;font-weight:bold;z-index:50;
- white-space:nowrap;text-shadow:2px 2px 4px #000;
-}
-#timer{
- position:absolute;top:40px;left:50%;transform:translateX(-50%);
- color:white;font-size:20px;font-weight:bold;z-index:50;
+ position:absolute;
+ top:8px;
+ left:50%;
+ transform:translateX(-50%);
+ color:white;
+ font-size:25px;
+ font-weight:bold;
+ z-index:50;
+ white-space:nowrap;
  text-shadow:2px 2px 4px #000;
 }
-#reset{
- position:absolute;right:10px;top:8px;z-index:80;
- padding:9px 14px;border:2px solid white;border-radius:8px;
- background:#111;color:white;font-weight:bold;
+
+#timer{
+ position:absolute;
+ top:40px;
+ left:50%;
+ transform:translateX(-50%);
+ color:white;
+ font-size:20px;
+ font-weight:bold;
+ z-index:50;
+ text-shadow:2px 2px 4px #000;
 }
 
-/* VIRTUAL CONTROLS - ALWAYS VISIBLE ON TOUCH DEVICES */
-#controls{
- position:fixed;left:0;right:0;bottom:12px;height:175px;
- z-index:200;pointer-events:none;
+#reset{
+ position:absolute;
+ right:10px;
+ top:8px;
+ z-index:80;
+ padding:9px 14px;
+ border:2px solid white;
+ border-radius:8px;
+ background:#111;
+ color:white;
+ font-weight:bold;
 }
+
+#controls{
+ position:fixed;
+ left:0;
+ right:0;
+ bottom:12px;
+ height:175px;
+ z-index:200;
+ pointer-events:none;
+}
+
 #joystick{
- position:absolute;left:22px;bottom:10px;
- width:150px;height:150px;border-radius:50%;
- background:#0006;border:4px solid #fff9;
+ position:absolute;
+ left:22px;
+ bottom:10px;
+ width:150px;
+ height:150px;
+ border-radius:50%;
+ background:#0006;
+ border:4px solid #fff9;
  pointer-events:auto;
 }
+
 #stick{
- position:absolute;left:50%;top:50%;
- width:65px;height:65px;border-radius:50%;
+ position:absolute;
+ left:50%;
+ top:50%;
+ width:65px;
+ height:65px;
+ border-radius:50%;
  transform:translate(-50%,-50%);
- background:#eee; border:4px solid white;
+ background:#eee;
+ border:4px solid white;
  box-shadow:0 3px 8px #0008;
 }
+
 #shoot{
- position:absolute;right:25px;bottom:25px;
- width:115px;height:115px;border-radius:50%;
- border:5px solid white;background:#e32323;color:white;
- font-size:20px;font-weight:bold;
+ position:absolute;
+ right:25px;
+ bottom:25px;
+ width:115px;
+ height:115px;
+ border-radius:50%;
+ border:5px solid white;
+ background:#e32323;
+ color:white;
+ font-size:20px;
+ font-weight:bold;
  pointer-events:auto;
  box-shadow:0 4px 10px #0008;
 }
 
-/* ONLY hide controls on computers */
 @media (hover:hover) and (pointer:fine){
- #controls{display:none}
+ #controls{
+  display:none;
+ }
 }
 </style>
 </head>
 
 <body>
+
+<!-- PASSWORD -->
+<div id="passwordScreen">
+ <h1>🔒 Ultimate Football 2026</h1>
+ <input id="passwordInput" type="password" placeholder="Enter Password">
+ <button onclick="checkPassword()">PLAY</button>
+ <p id="wrongPassword"></p>
+</div>
 
 <div id="game">
 
@@ -121,27 +299,58 @@ html,body{
 <button id="reset">RESET</button>
 
 <div id="pitch">
+
  <div class="mid"></div>
  <div class="circle"></div>
  <div class="dot"></div>
+
  <div class="box leftbox"></div>
  <div class="box rightbox"></div>
+
  <div class="goal leftgoal"></div>
  <div class="goal rightgoal"></div>
 
  <div id="player" class="player">👤</div>
  <div id="bot" class="bot">🤖</div>
  <div id="ball" class="ball"></div>
+
 </div>
 
 <div id="controls">
- <div id="joystick"><div id="stick"></div></div>
+ <div id="joystick">
+  <div id="stick"></div>
+ </div>
+
  <button id="shoot">SHOOT</button>
 </div>
 
 </div>
 
 <script>
+
+/* PASSWORD */
+
+function checkPassword(){
+
+ const password =
+ document.getElementById("passwordInput").value;
+
+ if(password === "umar bau"){
+
+  document.getElementById("passwordScreen").style.display="none";
+
+ }else{
+
+  document.getElementById("wrongPassword").textContent =
+  "Wrong password!";
+
+ }
+
+}
+
+
+/* GAME */
+
 const P=document.getElementById("player");
 const B=document.getElementById("bot");
 const BALL=document.getElementById("ball");
@@ -151,7 +360,6 @@ const TIMER=document.getElementById("timer");
 let px=27,py=50;
 let bx=73,by=50;
 
-/* BALL STARTS VERY CLOSE TO PLAYER */
 let x=31,y=50;
 let vx=0,vy=0;
 
@@ -161,192 +369,339 @@ let over=false;
 let direction=1;
 
 let keys={};
-let joyX=0,joyY=0;
-let touchingBall=false;
+
+let joyX=0;
+let joyY=0;
+
+
+/* KEYBOARD */
 
 document.addEventListener("keydown",e=>{
+
  keys[e.key.toLowerCase()]=true;
- if(e.code==="Space"){e.preventDefault();shoot()}
+
+ if(e.code==="Space"){
+  e.preventDefault();
+  shoot();
+ }
+
 });
+
 document.addEventListener("keyup",e=>{
  keys[e.key.toLowerCase()]=false;
 });
 
-/* PLAYER SHOOT */
+
+/* SHOOT */
+
 function shoot(){
+
  if(over)return;
 
  let d=Math.hypot(x-px,y-py);
 
- if(d<10){
-   vx=direction*2.8;
-   vy=joyY*1.2;
+ if(d<12){
+
+  vx=direction*3.2;
+  vy=joyY*1.5;
+
  }
+
 }
+
 
 /* BOT SHOOT */
+
 function botShoot(){
+
  let d=Math.hypot(x-bx,y-by);
+
  if(d<9){
-   vx=-2.1;
-   vy=(50-y)*.05;
+
+  vx=-2.1;
+  vy=(50-y)*.05;
+
  }
+
 }
 
+
 /* JOYSTICK */
+
 const joy=document.getElementById("joystick");
 const stick=document.getElementById("stick");
+
 let active=false;
 
 function joystickMove(cx,cy){
+
  const r=joy.getBoundingClientRect();
+
  let dx=cx-(r.left+r.width/2);
  let dy=cy-(r.top+r.height/2);
+
  const max=43;
+
  let d=Math.hypot(dx,dy);
 
  if(d>max){
-   dx=dx/d*max;
-   dy=dy/d*max;
+
+  dx=dx/d*max;
+  dy=dy/d*max;
+
  }
 
- stick.style.left=`calc(50% + ${dx}px)`;
- stick.style.top=`calc(50% + ${dy}px)`;
+ stick.style.left=
+ `calc(50% + ${dx}px)`;
+
+ stick.style.top=
+ `calc(50% + ${dy}px)`;
 
  joyX=dx/max;
  joyY=dy/max;
 
- if(Math.abs(joyX)>.18)
-   direction=joyX>0?1:-1;
+ if(Math.abs(joyX)>.18){
+
+  direction=joyX>0?1:-1;
+
+ }
+
 }
 
 joy.addEventListener("touchstart",e=>{
+
  e.preventDefault();
+
  active=true;
- joystickMove(e.touches[0].clientX,e.touches[0].clientY);
+
+ joystickMove(
+  e.touches[0].clientX,
+  e.touches[0].clientY
+ );
+
 },{passive:false});
+
 
 joy.addEventListener("touchmove",e=>{
+
  e.preventDefault();
- if(active)joystickMove(e.touches[0].clientX,e.touches[0].clientY);
+
+ if(active){
+
+  joystickMove(
+   e.touches[0].clientX,
+   e.touches[0].clientY
+  );
+
+ }
+
 },{passive:false});
+
 
 joy.addEventListener("touchend",e=>{
+
  e.preventDefault();
+
  active=false;
- joyX=0;joyY=0;
+
+ joyX=0;
+ joyY=0;
+
  stick.style.left="50%";
  stick.style.top="50%";
+
 },{passive:false});
 
+
 /* SHOOT BUTTON */
+
 const shootBtn=document.getElementById("shoot");
 
 shootBtn.addEventListener("touchstart",e=>{
+
  e.preventDefault();
  shoot();
+
 },{passive:false});
 
+
 shootBtn.addEventListener("mousedown",e=>{
+
  e.preventDefault();
  shoot();
+
 });
 
+
 /* RESET */
-document.getElementById("reset").addEventListener("click",reset);
+
+document.getElementById("reset")
+.addEventListener("click",reset);
+
 
 function reset(){
- px=27;py=50;
- bx=73;by=50;
- x=31;y=50;
- vx=0;vy=0;
- blue=0;red=0;
+
+ px=27;
+ py=50;
+
+ bx=73;
+ by=50;
+
+ x=31;
+ y=50;
+
+ vx=0;
+ vy=0;
+
+ blue=0;
+ red=0;
+
  time=160;
+
  over=false;
+
  direction=1;
+
 }
 
-/* GAME */
+
+/* GAME LOOP */
+
 function loop(){
 
  if(!over){
 
-   let mx=0,my=0;
+  let mx=0;
+  let my=0;
 
-   if(keys.a){mx--;direction=-1}
-   if(keys.d){mx++;direction=1}
-   if(keys.w)my--;
-   if(keys.s)my++;
+  if(keys.a){
+   mx--;
+   direction=-1;
+  }
 
-   mx+=joyX;
-   my+=joyY;
+  if(keys.d){
+   mx++;
+   direction=1;
+  }
 
-   let len=Math.hypot(mx,my);
-   if(len>1){mx/=len;my/=len}
+  if(keys.w)my--;
+  if(keys.s)my++;
 
-   px+=mx*.48;
-   py+=my*.48;
+  mx+=joyX;
+  my+=joyY;
 
-   px=Math.max(5,Math.min(95,px));
-   py=Math.max(5,Math.min(95,py));
+  let len=Math.hypot(mx,my);
 
-   /* BALL */
-   x+=vx;
-   y+=vy;
+  if(len>1){
+   mx/=len;
+   my/=len;
+  }
 
-   vx*=.965;
-   vy*=.965;
 
-   /* TOP/BOTTOM */
-   if(y<2){y=2;vy=Math.abs(vy)*.8}
-   if(y>98){y=98;vy=-Math.abs(vy)*.8}
+  /* PLAYER */
 
-   /* LEFT GOAL */
-   if(x<=1){
-     if(y>=35&&y<=65){
-       blue++;
-       goalReset();
-     }else{
-       x=2;
-       vx=Math.abs(vx)*.8;
-     }
-   }
+  px+=mx*.48;
+  py+=my*.48;
 
-   /* RIGHT GOAL */
-   if(x>=99){
-     if(y>=35&&y<=65){
-       red++;
-       goalReset();
-     }else{
-       x=98;
-       vx=-Math.abs(vx)*.8;
-     }
-   }
+  px=Math.max(5,Math.min(95,px));
+  py=Math.max(5,Math.min(95,py));
 
-   /* BALL CONTROL */
-   let pd=Math.hypot(x-px,y-py);
 
-   if(pd<5.8){
-     touchingBall=true;
+  /* BALL */
 
-     if(Math.abs(mx)>.1)vx=mx*.8;
-     if(Math.abs(my)>.1)vy=my*.7;
+  x+=vx;
+  y+=vy;
+
+  vx*=.965;
+  vy*=.965;
+
+
+  /* TOP / BOTTOM */
+
+  if(y<2){
+   y=2;
+   vy=Math.abs(vy)*.8;
+  }
+
+  if(y>98){
+   y=98;
+   vy=-Math.abs(vy)*.8;
+  }
+
+
+  /* LEFT GOAL */
+
+  if(x<=1){
+
+   if(y>=35 && y<=65){
+
+    blue++;
+    goalReset();
+
    }else{
-     touchingBall=false;
+
+    x=2;
+    vx=Math.abs(vx)*.8;
+
    }
 
-   /* BOT */
-   let dx=x-bx;
-   let dy=y-by;
+  }
 
-   if(Math.abs(dx)>1)bx+=Math.sign(dx)*.24;
-   if(Math.abs(dy)>1)by+=Math.sign(dy)*.24;
 
-   bx=Math.max(5,Math.min(95,bx));
-   by=Math.max(5,Math.min(95,by));
+  /* RIGHT GOAL */
 
-   botShoot();
+  if(x>=99){
+
+   if(y>=35 && y<=65){
+
+    red++;
+    goalReset();
+
+   }else{
+
+    x=98;
+    vx=-Math.abs(vx)*.8;
+
+   }
+
+  }
+
+
+  /* BALL CONTROL */
+
+  let pd=Math.hypot(x-px,y-py);
+
+  if(pd<7){
+
+   if(Math.abs(mx)>.1)
+    vx=mx*.8;
+
+   if(Math.abs(my)>.1)
+    vy=my*.7;
+
+  }
+
+
+  /* BOT */
+
+  let dx=x-bx;
+  let dy=y-by;
+
+  if(Math.abs(dx)>1)
+   bx+=Math.sign(dx)*.24;
+
+  if(Math.abs(dy)>1)
+   by+=Math.sign(dy)*.24;
+
+  bx=Math.max(5,Math.min(95,bx));
+  by=Math.max(5,Math.min(95,by));
+
+  botShoot();
+
  }
+
+
+ /* DRAW */
 
  P.style.left=px+"%";
  P.style.top=py+"%";
@@ -357,28 +712,55 @@ function loop(){
  BALL.style.left=x+"%";
  BALL.style.top=y+"%";
 
- SCORE.textContent=`BLUE ${blue} - ${red} RED`;
- TIMER.textContent=over?"FULL TIME":time;
+ SCORE.textContent=
+ `BLUE ${blue} - ${red} RED`;
+
+ TIMER.textContent=
+ over ? "FULL TIME" : time;
 
  requestAnimationFrame(loop);
+
 }
+
+
+/* GOAL RESET */
 
 function goalReset(){
- x=50;y=50;
- vx=0;vy=0;
- px=27;py=50;
- bx=73;by=50;
+
+ x=50;
+ y=50;
+
+ vx=0;
+ vy=0;
+
+ px=27;
+ py=50;
+
+ bx=73;
+ by=50;
+
 }
 
+
+/* TIMER */
+
 setInterval(()=>{
- if(!over&&time>0){
-   time--;
-   if(time<=0)over=true;
+
+ if(!over && time>0){
+
+  time--;
+
+  if(time<=0)
+   over=true;
+
  }
+
 },1000);
+
 
 reset();
 loop();
+
 </script>
 
 </body>
