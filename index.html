@@ -2,260 +2,112 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>Ultimate Football 2026</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  user-select: none;
-  -webkit-user-select: none;
+*{box-sizing:border-box}
+html,body{
+ margin:0;width:100%;height:100%;overflow:hidden;
+ font-family:Arial,sans-serif;background:#08752d;
+ touch-action:none;
+}
+#game{width:100vw;height:100vh;position:relative;overflow:hidden}
+
+#pitch{
+ position:absolute;left:3%;top:5%;width:94%;height:90%;
+ border:4px solid white;
+ background:repeating-linear-gradient(
+  90deg,#168f3b 0,#168f3b 90px,#128238 90px,#128238 180px
+ );
+ box-shadow:0 0 25px #0008;
 }
 
-html, body {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  font-family: Arial, sans-serif;
-  background: #168a35;
-  touch-action: none;
+.mid{position:absolute;left:50%;top:0;width:4px;height:100%;background:white}
+.circle{
+ position:absolute;left:50%;top:50%;width:155px;height:155px;
+ border:4px solid white;border-radius:50%;
+ transform:translate(-50%,-50%);
+}
+.dot{
+ position:absolute;left:50%;top:50%;width:10px;height:10px;
+ background:white;border-radius:50%;transform:translate(-50%,-50%);
+}
+.box{
+ position:absolute;top:27%;width:14%;height:46%;
+ border:4px solid white;
+}
+.leftbox{left:0;border-left:0}
+.rightbox{right:0;border-right:0}
+
+.goal{
+ position:absolute;top:35%;width:7%;height:30%;
+ border:4px solid white;background:#ffffff20;
+}
+.leftgoal{left:-7%}
+.rightgoal{right:-7%}
+
+.player,.bot{
+ position:absolute;width:48px;height:48px;border-radius:50%;
+ transform:translate(-50%,-50%);
+ display:flex;align-items:center;justify-content:center;
+ border:3px solid white;z-index:10;font-size:25px;
+}
+.player{background:#087cff}
+.bot{background:#e52525}
+
+.ball{
+ position:absolute;width:23px;height:23px;border-radius:50%;
+ background:white;border:3px solid #111;
+ transform:translate(-50%,-50%);z-index:20;
 }
 
-#game {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background: #168a35;
+#score{
+ position:absolute;top:8px;left:50%;transform:translateX(-50%);
+ color:white;font-size:25px;font-weight:bold;z-index:50;
+ white-space:nowrap;text-shadow:2px 2px 4px #000;
+}
+#timer{
+ position:absolute;top:40px;left:50%;transform:translateX(-50%);
+ color:white;font-size:20px;font-weight:bold;z-index:50;
+ text-shadow:2px 2px 4px #000;
+}
+#reset{
+ position:absolute;right:10px;top:8px;z-index:80;
+ padding:9px 14px;border:2px solid white;border-radius:8px;
+ background:#111;color:white;font-weight:bold;
 }
 
-/* FOOTBALL GROUND */
-#pitch {
-  position: absolute;
-  left: 3%;
-  top: 6%;
-  width: 94%;
-  height: 88%;
-  border: 5px solid white;
-  overflow: visible;
-
-  background:
-    repeating-linear-gradient(
-      90deg,
-      #15913a 0px,
-      #15913a 80px,
-      #128334 80px,
-      #128334 160px
-    );
+/* VIRTUAL CONTROLS - ALWAYS VISIBLE ON TOUCH DEVICES */
+#controls{
+ position:fixed;left:0;right:0;bottom:12px;height:175px;
+ z-index:200;pointer-events:none;
+}
+#joystick{
+ position:absolute;left:22px;bottom:10px;
+ width:150px;height:150px;border-radius:50%;
+ background:#0006;border:4px solid #fff9;
+ pointer-events:auto;
+}
+#stick{
+ position:absolute;left:50%;top:50%;
+ width:65px;height:65px;border-radius:50%;
+ transform:translate(-50%,-50%);
+ background:#eee; border:4px solid white;
+ box-shadow:0 3px 8px #0008;
+}
+#shoot{
+ position:absolute;right:25px;bottom:25px;
+ width:115px;height:115px;border-radius:50%;
+ border:5px solid white;background:#e32323;color:white;
+ font-size:20px;font-weight:bold;
+ pointer-events:auto;
+ box-shadow:0 4px 10px #0008;
 }
 
-/* FIELD LINES */
-.line {
-  position: absolute;
-  background: white;
-}
-
-.midline {
-  left: 50%;
-  top: 0;
-  width: 4px;
-  height: 100%;
-  transform: translateX(-50%);
-}
-
-.circle {
-  position: absolute;
-  width: 150px;
-  height: 150px;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  border: 4px solid white;
-  border-radius: 50%;
-}
-
-.centerDot {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 12px;
-  height: 12px;
-  background: white;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-}
-
-/* PENALTY AREAS */
-.penalty {
-  position: absolute;
-  top: 27%;
-  width: 13%;
-  height: 46%;
-  border: 4px solid white;
-}
-
-.leftPenalty {
-  left: 0;
-  border-left: 0;
-}
-
-.rightPenalty {
-  right: 0;
-  border-right: 0;
-}
-
-/* GOALS */
-.goal {
-  position: absolute;
-  top: 35%;
-  width: 6%;
-  height: 30%;
-  border: 5px solid white;
-  background: rgba(255,255,255,0.15);
-}
-
-#leftGoal {
-  left: -6%;
-}
-
-#rightGoal {
-  right: -6%;
-}
-
-/* PLAYERS */
-.player,
-.bot {
-  position: absolute;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  font-size: 25px;
-}
-
-.player {
-  background: #1677ff;
-  border: 3px solid white;
-}
-
-.bot {
-  background: #e32626;
-  border: 3px solid white;
-}
-
-/* BALL */
-.ball {
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: white;
-  border: 3px solid black;
-  transform: translate(-50%, -50%);
-  z-index: 20;
-}
-
-/* SCORE */
-#score {
-  position: absolute;
-  top: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: white;
-  font-size: 27px;
-  font-weight: bold;
-  z-index: 50;
-  white-space: nowrap;
-}
-
-/* TIMER */
-#timer {
-  position: absolute;
-  top: 43px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: white;
-  font-size: 21px;
-  font-weight: bold;
-  z-index: 50;
-}
-
-/* RESET */
-#resetButton {
-  position: absolute;
-  top: 8px;
-  right: 12px;
-  z-index: 60;
-  padding: 9px 15px;
-  border: 2px solid white;
-  border-radius: 8px;
-  background: #222;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-/* MOBILE CONTROLS */
-#controls {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 10px;
-  height: 165px;
-  z-index: 100;
-  pointer-events: none;
-}
-
-/* JOYSTICK */
-#joystick {
-  position: absolute;
-  left: 22px;
-  bottom: 15px;
-  width: 135px;
-  height: 135px;
-  border-radius: 50%;
-  border: 3px solid rgba(255,255,255,0.7);
-  background: rgba(0,0,0,0.20);
-  pointer-events: auto;
-}
-
-#stick {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 62px;
-  height: 62px;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(255,255,255,0.75);
-  border: 3px solid white;
-}
-
-/* SHOOT */
-#shootButton {
-  position: absolute;
-  right: 25px;
-  bottom: 28px;
-  width: 105px;
-  height: 105px;
-  border-radius: 50%;
-  border: 4px solid white;
-  background: #d92323;
-  color: white;
-  font-size: 19px;
-  font-weight: bold;
-  pointer-events: auto;
-}
-
-@media (min-width: 800px) {
-  #controls {
-    display: none;
-  }
+/* ONLY hide controls on computers */
+@media (hover:hover) and (pointer:fine){
+ #controls{display:none}
 }
 </style>
 </head>
@@ -264,495 +116,269 @@ html, body {
 
 <div id="game">
 
-  <button id="resetButton">RESET</button>
+<div id="score">BLUE 0 - 0 RED</div>
+<div id="timer">160</div>
+<button id="reset">RESET</button>
 
-  <div id="score">BLUE 0 - 0 RED</div>
-  <div id="timer">160</div>
+<div id="pitch">
+ <div class="mid"></div>
+ <div class="circle"></div>
+ <div class="dot"></div>
+ <div class="box leftbox"></div>
+ <div class="box rightbox"></div>
+ <div class="goal leftgoal"></div>
+ <div class="goal rightgoal"></div>
 
-  <div id="pitch">
+ <div id="player" class="player">👤</div>
+ <div id="bot" class="bot">🤖</div>
+ <div id="ball" class="ball"></div>
+</div>
 
-    <div class="line midline"></div>
-    <div class="circle"></div>
-    <div class="centerDot"></div>
-
-    <div class="penalty leftPenalty"></div>
-    <div class="penalty rightPenalty"></div>
-
-    <div id="leftGoal" class="goal"></div>
-    <div id="rightGoal" class="goal"></div>
-
-    <div id="player" class="player">⚽</div>
-    <div id="bot" class="bot">🤖</div>
-    <div id="ball" class="ball"></div>
-
-  </div>
-
-  <!-- MOBILE CONTROLS -->
-  <div id="controls">
-
-    <div id="joystick">
-      <div id="stick"></div>
-    </div>
-
-    <button id="shootButton">SHOOT</button>
-
-  </div>
+<div id="controls">
+ <div id="joystick"><div id="stick"></div></div>
+ <button id="shoot">SHOOT</button>
+</div>
 
 </div>
 
 <script>
-const player = document.getElementById("player");
-const bot = document.getElementById("bot");
-const ball = document.getElementById("ball");
+const P=document.getElementById("player");
+const B=document.getElementById("bot");
+const BALL=document.getElementById("ball");
+const SCORE=document.getElementById("score");
+const TIMER=document.getElementById("timer");
 
-const scoreText = document.getElementById("score");
-const timerText = document.getElementById("timer");
+let px=27,py=50;
+let bx=73,by=50;
 
-const resetButton = document.getElementById("resetButton");
-const shootButton = document.getElementById("shootButton");
+/* BALL STARTS VERY CLOSE TO PLAYER */
+let x=31,y=50;
+let vx=0,vy=0;
 
-const joystick = document.getElementById("joystick");
-const stick = document.getElementById("stick");
+let blue=0,red=0;
+let time=160;
+let over=false;
+let direction=1;
 
-let playerX;
-let playerY;
+let keys={};
+let joyX=0,joyY=0;
+let touchingBall=false;
 
-let botX;
-let botY;
-
-let ballX;
-let ballY;
-
-let ballVX;
-let ballVY;
-
-let blueScore;
-let redScore;
-
-let timeLeft;
-
-let playerDirection = 1;
-
-let keys = {};
-
-let joystickX = 0;
-let joystickY = 0;
-
-let matchOver = false;
-
-/* RESET GAME */
-
-function resetGame() {
-
-  playerX = 25;
-  playerY = 50;
-
-  botX = 75;
-  botY = 50;
-
-  ballX = 50;
-  ballY = 50;
-
-  ballVX = 0;
-  ballVY = 0;
-
-  blueScore = 0;
-  redScore = 0;
-
-  timeLeft = 160;
-
-  playerDirection = 1;
-
-  joystickX = 0;
-  joystickY = 0;
-
-  matchOver = false;
-
-  stick.style.left = "50%";
-  stick.style.top = "50%";
-
-  updateScreen();
-}
-
-resetButton.addEventListener("click", resetGame);
-
-/* KEYBOARD */
-
-document.addEventListener("keydown", function(e) {
-
-  keys[e.key.toLowerCase()] = true;
-
-  if (e.code === "Space") {
-    e.preventDefault();
-    shoot();
-  }
+document.addEventListener("keydown",e=>{
+ keys[e.key.toLowerCase()]=true;
+ if(e.code==="Space"){e.preventDefault();shoot()}
+});
+document.addEventListener("keyup",e=>{
+ keys[e.key.toLowerCase()]=false;
 });
 
-document.addEventListener("keyup", function(e) {
-  keys[e.key.toLowerCase()] = false;
-});
+/* PLAYER SHOOT */
+function shoot(){
+ if(over)return;
 
-/* SHOOT */
+ let d=Math.hypot(x-px,y-py);
 
-function shoot() {
-
-  if (matchOver) return;
-
-  const distance = Math.hypot(
-    ballX - playerX,
-    ballY - playerY
-  );
-
-  if (distance <= 7) {
-
-    /* SHOOT LEFT OR RIGHT */
-    ballVX = playerDirection * 2.2;
-
-    /* SHOOT SLIGHTLY UP/DOWN */
-    if (Math.abs(joystickY) > 0.25) {
-      ballVY = joystickY * 1.1;
-    } else {
-      ballVY = 0;
-    }
-  }
+ if(d<10){
+   vx=direction*2.8;
+   vy=joyY*1.2;
+ }
 }
 
 /* BOT SHOOT */
-
-function botShoot() {
-
-  const distance = Math.hypot(
-    ballX - botX,
-    ballY - botY
-  );
-
-  if (distance <= 7) {
-
-    /* RED BOT SHOOTS TOWARD BLUE GOAL */
-    ballVX = -1.8;
-
-    ballVY = (50 - ballY) * 0.03;
-  }
+function botShoot(){
+ let d=Math.hypot(x-bx,y-by);
+ if(d<9){
+   vx=-2.1;
+   vy=(50-y)*.05;
+ }
 }
 
 /* JOYSTICK */
+const joy=document.getElementById("joystick");
+const stick=document.getElementById("stick");
+let active=false;
 
-let joystickActive = false;
+function joystickMove(cx,cy){
+ const r=joy.getBoundingClientRect();
+ let dx=cx-(r.left+r.width/2);
+ let dy=cy-(r.top+r.height/2);
+ const max=43;
+ let d=Math.hypot(dx,dy);
 
-function handleJoystick(clientX, clientY) {
+ if(d>max){
+   dx=dx/d*max;
+   dy=dy/d*max;
+ }
 
-  const rect = joystick.getBoundingClientRect();
+ stick.style.left=`calc(50% + ${dx}px)`;
+ stick.style.top=`calc(50% + ${dy}px)`;
 
-  let x =
-    clientX -
-    (rect.left + rect.width / 2);
+ joyX=dx/max;
+ joyY=dy/max;
 
-  let y =
-    clientY -
-    (rect.top + rect.height / 2);
-
-  const max = 38;
-
-  const distance = Math.hypot(x, y);
-
-  if (distance > max) {
-
-    x = x / distance * max;
-    y = y / distance * max;
-  }
-
-  stick.style.left =
-    "calc(50% + " + x + "px)";
-
-  stick.style.top =
-    "calc(50% + " + y + "px)";
-
-  joystickX = x / max;
-  joystickY = y / max;
-
-  /* DIRECTION */
-  if (Math.abs(joystickX) > 0.20) {
-
-    if (joystickX > 0) {
-      playerDirection = 1;
-    } else {
-      playerDirection = -1;
-    }
-  }
+ if(Math.abs(joyX)>.18)
+   direction=joyX>0?1:-1;
 }
 
-joystick.addEventListener("touchstart", function(e) {
+joy.addEventListener("touchstart",e=>{
+ e.preventDefault();
+ active=true;
+ joystickMove(e.touches[0].clientX,e.touches[0].clientY);
+},{passive:false});
 
-  e.preventDefault();
+joy.addEventListener("touchmove",e=>{
+ e.preventDefault();
+ if(active)joystickMove(e.touches[0].clientX,e.touches[0].clientY);
+},{passive:false});
 
-  joystickActive = true;
-
-  handleJoystick(
-    e.touches[0].clientX,
-    e.touches[0].clientY
-  );
-});
-
-joystick.addEventListener("touchmove", function(e) {
-
-  e.preventDefault();
-
-  if (joystickActive) {
-
-    handleJoystick(
-      e.touches[0].clientX,
-      e.touches[0].clientY
-    );
-  }
-});
-
-joystick.addEventListener("touchend", function() {
-
-  joystickActive = false;
-
-  joystickX = 0;
-  joystickY = 0;
-
-  stick.style.left = "50%";
-  stick.style.top = "50%";
-});
+joy.addEventListener("touchend",e=>{
+ e.preventDefault();
+ active=false;
+ joyX=0;joyY=0;
+ stick.style.left="50%";
+ stick.style.top="50%";
+},{passive:false});
 
 /* SHOOT BUTTON */
+const shootBtn=document.getElementById("shoot");
 
-shootButton.addEventListener("touchstart", function(e) {
+shootBtn.addEventListener("touchstart",e=>{
+ e.preventDefault();
+ shoot();
+},{passive:false});
 
-  e.preventDefault();
-
-  shoot();
+shootBtn.addEventListener("mousedown",e=>{
+ e.preventDefault();
+ shoot();
 });
 
-shootButton.addEventListener("mousedown", function(e) {
+/* RESET */
+document.getElementById("reset").addEventListener("click",reset);
 
-  e.preventDefault();
-
-  shoot();
-});
-
-/* BALL RESET AFTER GOAL */
-
-function resetBallAfterGoal() {
-
-  ballX = 50;
-  ballY = 50;
-
-  ballVX = 0;
-  ballVY = 0;
-
-  playerX = 25;
-  playerY = 50;
-
-  botX = 75;
-  botY = 50;
+function reset(){
+ px=27;py=50;
+ bx=73;by=50;
+ x=31;y=50;
+ vx=0;vy=0;
+ blue=0;red=0;
+ time=160;
+ over=false;
+ direction=1;
 }
 
-/* UPDATE */
+/* GAME */
+function loop(){
 
-function update() {
+ if(!over){
 
-  if (!matchOver) {
+   let mx=0,my=0;
 
-    const speed = 0.45;
+   if(keys.a){mx--;direction=-1}
+   if(keys.d){mx++;direction=1}
+   if(keys.w)my--;
+   if(keys.s)my++;
 
-    let moveX = 0;
-    let moveY = 0;
+   mx+=joyX;
+   my+=joyY;
 
-    /* KEYBOARD */
+   let len=Math.hypot(mx,my);
+   if(len>1){mx/=len;my/=len}
 
-    if (keys["a"]) {
-      moveX -= 1;
-      playerDirection = -1;
-    }
+   px+=mx*.48;
+   py+=my*.48;
 
-    if (keys["d"]) {
-      moveX += 1;
-      playerDirection = 1;
-    }
+   px=Math.max(5,Math.min(95,px));
+   py=Math.max(5,Math.min(95,py));
 
-    if (keys["w"]) {
-      moveY -= 1;
-    }
+   /* BALL */
+   x+=vx;
+   y+=vy;
 
-    if (keys["s"]) {
-      moveY += 1;
-    }
+   vx*=.965;
+   vy*=.965;
 
-    /* JOYSTICK */
+   /* TOP/BOTTOM */
+   if(y<2){y=2;vy=Math.abs(vy)*.8}
+   if(y>98){y=98;vy=-Math.abs(vy)*.8}
 
-    moveX += joystickX;
-    moveY += joystickY;
+   /* LEFT GOAL */
+   if(x<=1){
+     if(y>=35&&y<=65){
+       blue++;
+       goalReset();
+     }else{
+       x=2;
+       vx=Math.abs(vx)*.8;
+     }
+   }
 
-    /* NORMALIZE */
-    const movementLength =
-      Math.hypot(moveX, moveY);
+   /* RIGHT GOAL */
+   if(x>=99){
+     if(y>=35&&y<=65){
+       red++;
+       goalReset();
+     }else{
+       x=98;
+       vx=-Math.abs(vx)*.8;
+     }
+   }
 
-    if (movementLength > 1) {
+   /* BALL CONTROL */
+   let pd=Math.hypot(x-px,y-py);
 
-      moveX /= movementLength;
-      moveY /= movementLength;
-    }
+   if(pd<5.8){
+     touchingBall=true;
 
-    playerX += moveX * speed;
-    playerY += moveY * speed;
+     if(Math.abs(mx)>.1)vx=mx*.8;
+     if(Math.abs(my)>.1)vy=my*.7;
+   }else{
+     touchingBall=false;
+   }
 
-    /* PLAYER STAYS ON FIELD */
+   /* BOT */
+   let dx=x-bx;
+   let dy=y-by;
 
-    playerX =
-      Math.max(5, Math.min(95, playerX));
+   if(Math.abs(dx)>1)bx+=Math.sign(dx)*.24;
+   if(Math.abs(dy)>1)by+=Math.sign(dy)*.24;
 
-    playerY =
-      Math.max(5, Math.min(95, playerY));
+   bx=Math.max(5,Math.min(95,bx));
+   by=Math.max(5,Math.min(95,by));
 
-    /* BALL */
+   botShoot();
+ }
 
-    ballX += ballVX;
-    ballY += ballVY;
+ P.style.left=px+"%";
+ P.style.top=py+"%";
 
-    ballVX *= 0.965;
-    ballVY *= 0.965;
+ B.style.left=bx+"%";
+ B.style.top=by+"%";
 
-    /* TOP/BOTTOM WALL */
+ BALL.style.left=x+"%";
+ BALL.style.top=y+"%";
 
-    if (ballY <= 2) {
+ SCORE.textContent=`BLUE ${blue} - ${red} RED`;
+ TIMER.textContent=over?"FULL TIME":time;
 
-      ballY = 2;
-      ballVY = Math.abs(ballVY) * 0.8;
-    }
-
-    if (ballY >= 98) {
-
-      ballY = 98;
-      ballVY = -Math.abs(ballVY) * 0.8;
-    }
-
-    /* LEFT SIDE */
-
-    if (ballX <= 2) {
-
-      if (ballY >= 35 && ballY <= 65) {
-
-        blueScore++;
-
-        resetBallAfterGoal();
-
-      } else {
-
-        ballX = 2;
-        ballVX = Math.abs(ballVX) * 0.8;
-      }
-    }
-
-    /* RIGHT SIDE */
-
-    if (ballX >= 98) {
-
-      if (ballY >= 35 && ballY <= 65) {
-
-        redScore++;
-
-        resetBallAfterGoal();
-
-      } else {
-
-        ballX = 98;
-        ballVX = -Math.abs(ballVX) * 0.8;
-      }
-    }
-
-    /* PLAYER TOUCHES BALL */
-
-    const playerDistance =
-      Math.hypot(
-        ballX - playerX,
-        ballY - playerY
-      );
-
-    if (playerDistance < 5.5) {
-
-      if (Math.abs(moveX) > 0.1) {
-        ballVX = moveX * 0.7;
-      }
-
-      if (Math.abs(moveY) > 0.1) {
-        ballVY = moveY * 0.6;
-      }
-    }
-
-    /* BOT MOVEMENT */
-
-    const dx = ballX - botX;
-    const dy = ballY - botY;
-
-    if (Math.abs(dx) > 1) {
-      botX += Math.sign(dx) * 0.22;
-    }
-
-    if (Math.abs(dy) > 1) {
-      botY += Math.sign(dy) * 0.22;
-    }
-
-    botX =
-      Math.max(5, Math.min(95, botX));
-
-    botY =
-      Math.max(5, Math.min(95, botY));
-
-    botShoot();
-  }
-
-  updateScreen();
-
-  requestAnimationFrame(update);
+ requestAnimationFrame(loop);
 }
 
-/* DISPLAY */
-
-function updateScreen() {
-
-  player.style.left = playerX + "%";
-  player.style.top = playerY + "%";
-
-  bot.style.left = botX + "%";
-  bot.style.top = botY + "%";
-
-  ball.style.left = ballX + "%";
-  ball.style.top = ballY + "%";
-
-  scoreText.textContent =
-    "BLUE " + blueScore +
-    " - " + redScore + " RED";
-
-  timerText.textContent = timeLeft;
-
-  if (timeLeft <= 0) {
-    matchOver = true;
-    timerText.textContent = "FULL TIME";
-  }
+function goalReset(){
+ x=50;y=50;
+ vx=0;vy=0;
+ px=27;py=50;
+ bx=73;by=50;
 }
 
-/* 160 SECOND TIMER */
+setInterval(()=>{
+ if(!over&&time>0){
+   time--;
+   if(time<=0)over=true;
+ }
+},1000);
 
-setInterval(function() {
-
-  if (!matchOver && timeLeft > 0) {
-
-    timeLeft--;
-
-    if (timeLeft <= 0) {
-      matchOver = true;
-    }
-  }
-
-}, 1000);
-
-/* START */
-
-resetGame();
-update();
+reset();
+loop();
 </script>
 
 </body>
